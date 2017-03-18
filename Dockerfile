@@ -1,5 +1,8 @@
 FROM ruby:2.3.1
 
+ENV RACK_ENV production
+RUN gem update bundler --no-document
+
 RUN mkdir /app
 COPY . /app/
 
@@ -8,8 +11,9 @@ RUN chown -R foo:foo /app
 
 WORKDIR /app
 USER foo
-RUN bundle cache
-RUN bundle install --deployment --binstubs --local
+RUN bundle install --deployment --binstubs
 
-CMD ["bin/rackup"]
+EXPOSE 3000
+
+CMD ["bin/rackup", "-s", "puma", "-p", "3000"]
 

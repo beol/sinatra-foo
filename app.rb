@@ -2,6 +2,14 @@ get '/' do
   send_file(File.join(settings.public_folder, "home.html"))
 end
 
+get '/host' do
+  json({
+    server: {
+      name: Socket.gethostname
+    }
+  })
+end
+
 get '/manifest.json' do
   manifest = {
     manifest: {
